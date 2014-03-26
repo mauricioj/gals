@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="title">Listar Disciplinas</ui:define>
+            <ui:define name="content">
+                <h:inputHidden value="#{disciplinaManagedBean.listarDisciplinas()}"/>                                
+                <h:form>
+                    <p:panel header="Listar Disciplinas" styleClass="fieldset">
+                        <p:dataTable value="#{disciplinaManagedBean.disciplinas}" var="disciplina" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="N&atilde;o existem disciplinas cadastradas!" style="width: 100%;">
+                            <p:column sortBy="#{disciplina.descricao}" filterBy="#{disciplina.descricao}">
+                                <f:facet name="header">
+                                    <h:outputText value="Descricao" />
+                                </f:facet>
+                                <h:outputText value="#{disciplina.descricao}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Editar"/>
+                                </f:facet>
+                                <h:commandLink action="#{disciplinaManagedBean.montarPaginaParaAlteracao(disciplina)}" title="Alterar Disciplina">
+                                    <p:graphicImage value="/resources/imagens/edit.png" alt="Alterar Disciplina" title="Alterar Disciplina"/>
+                                </h:commandLink>                      
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Excluir"/>
+                                </f:facet>
+                                <h:commandLink action="#{disciplinaManagedBean.montarPaginaParaExclusao(disciplina)}" title="Excluir Disciplina">
+                                    <p:graphicImage value="/resources/imagens/delete.png" alt="Excluir Disciplina" title="Excluir Disciplina"/>
+                                </h:commandLink>                                     
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html> 

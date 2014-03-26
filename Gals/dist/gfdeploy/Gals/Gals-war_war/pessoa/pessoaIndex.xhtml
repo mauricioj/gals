@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="title">Cadastro de Pessoas</ui:define>
+            <ui:define name="content">
+                <p:tabView effect="#{'explode'}" effectDuration="normal" dynamic="true">
+
+                    <p:ajax event="tabChange" listener="#{pessoaManagedBean.listarPessoas()}" update="frmCadastrarPessoa, frmListarPessoa:tabelaPessoas"/>
+
+                    <p:tab id="tab1" title="Cadastrar">  
+                        <h:form id="frmCadastrarPessoa">
+                            <p:messages id="mensagensPessoa" autoUpdate="true" closable="true" />
+
+                            <h:outputLabel value="Nome" />
+                            <br/>
+                            <p:inputText id="nome" value="#{pessoaManagedBean.pessoa.nome}" required="true" />
+                            <br/><br/>
+
+                            <h:outputLabel value="CPF" />
+                            <br/>
+                            <p:inputText id="cpf" value="#{pessoaManagedBean.pessoa.cpf}" required="true">  
+                                <p:ajax event="blur" update="username, passwordOutput" />  
+                            </p:inputText>
+                            <br/><br/>
+
+                            <h:outputLabel value="E-mail" />
+                            <br/>
+                            <p:inputText id="email" value="#{pessoaManagedBean.pessoa.EMail}" required="true" />
+                            <br/><br/>
+
+                            <h:outputLabel value="Usuario: " />
+                            <h:outputText id="username" value="#{pessoaManagedBean.pessoa.cpf}" style="font-weight: bold; color: red;" />
+                            <br/><br/>
+
+                            <p:outputPanel rendered="#{pessoaManagedBean.pessoa.id == null}">
+                                <h:outputLabel value="Senha: " />
+                                <h:outputText id="passwordOutput" value="#{pessoaManagedBean.pessoa.cpf}" style="font-weight: bold; color: red;" />
+                            </p:outputPanel>
+
+                            <p:outputPanel rendered="#{pessoaManagedBean.pessoa.id != null}">
+                                <h:outputLabel value="Senha " />
+                                <br/>
+                                <h:inputSecret id="password" value="#{pessoaManagedBean.pessoa.usuario.password}" required="true" />
+                            </p:outputPanel>
+                            <br/><br/>
+
+                            <h:outputLabel value="Perfil" /> 
+                            <br/>                               
+                            <p:pickList id="listaPerfis" value="#{pessoaManagedBean.perfis}" var="perfil" itemLabel="#{perfil.descricao}" itemValue="#{perfil}" converter="perfilConverter" required="true" />
+
+                            <p:commandButton id="inserir" action="#{pessoaManagedBean.inserir()}" value="Inserir" update="@form" disabled="#{pessoaManagedBean.pessoa.id != null}" />
+                            <p:commandButton id="alterar" action="#{pessoaManagedBean.alterar()}" value="Alterar" update="@form" disabled="#{pessoaManagedBean.pessoa.id == null}" />
+                            <p:commandButton id="cancelar" action="#{pessoaManagedBean.limpar()}"  value="Limpar" update="@form" process="@this" />
+                        </h:form> 
+                    </p:tab>
+
+                    <p:tab id="tab2" title="Listar">  
+                        <h:form id="frmListarPessoa">
+                            <h:panelGrid>
+                                <p:dataTable id="tabelaPessoas" value="#{pessoaManagedBean.pessoas}" var="pessoa" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,15,20" paginatorPosition="bottom" emptyMessage="N&atilde;o existem pessoas cadastradas!" rendered="#{not empty pessoaManagedBean.pessoas}">
+                                    <p:column sortBy="#{pessoa.nome}" filterBy="#{pessoa.nome}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Nome" />
+                                        </f:facet>
+                                        <h:outputText value="#{pessoa.nome}" />
+                                    </p:column>
+                                    <p:column sortBy="#{pessoa.cpf}" filterBy="#{pessoa.cpf}">
+                                        <f:facet name="header">
+                                            <h:outputText value="CPF" />
+                                        </f:facet>
+                                        <h:outputText value="#{pessoa.cpf}" />
+                                    </p:column>
+                                    <p:column sortBy="#{pessoa.EMail}" filterBy="#{pessoa.EMail}">
+                                        <f:facet name="header">
+                                            <h:outputText value="EMail"/>
+                                        </f:facet>
+                                        <h:outputText value="#{pessoa.EMail}" />
+                                    </p:column>
+                                    <p:column sortBy="#{pessoa.usuario.userName}" filterBy="#{pessoa.usuario.userName}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Usuário"/>
+                                        </f:facet>
+                                        <h:outputText value="#{pessoa.usuario.userName}" />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Alterar"/>
+                                        </f:facet>
+                                        <h:commandLink action="#{pessoaManagedBean.montarPaginaParaAlteracao}" title="Alterar">
+                                            <p:graphicImage value="/resources/imagens/edit.png" />
+                                            <f:setPropertyActionListener value="#{pessoa}" target="#{pessoaManagedBean.pessoa}" />  
+                                        </h:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:tab>
+
+                </p:tabView>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

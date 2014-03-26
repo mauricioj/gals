@@ -1,0 +1,139 @@
+body {
+    background-color: #ffffff;
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000;  
+    margin: 10px;
+}
+
+/*h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    border-bottom: 1px solid #AFAFAF; 
+    font-size:  16px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #D20005;
+}*/
+
+a:link, a:visited {
+  color: #045491;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+  color: #045491;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+form {
+    width:100%;
+    text-align:center;
+}
+
+.fieldset { 
+    width:100%;
+    display:block;
+    float: left;
+}
+
+.areaBotao {
+    display:block;
+    text-align:center;
+    padding-top: 9px;
+    padding-bottom: 1px;
+    /*background-color: #DEF3FF;*/
+    width:100%;
+    float:left;
+    margin-top: 1%;
+    margin-bottom: 1%;    
+}
+
+.areaMensagens {
+    display:block;
+    text-align:center;
+    margin-top: 9px;
+    margin-bottom: 1px;
+    width:100%;
+    float:left;
+}
+.areag {
+    display:block;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    border: none;
+    margin-top: 10px;
+    color:#000000;
+    text-align:left;
+    width:100%;
+    float:left;
+    min-height: 31px;
+}
+
+.areag label{
+    font-weight: bold;
+}
+
+.areag input{
+    width:95%;
+}
+.areag select{
+    width:95%;
+    margin-right: 5%;
+}
+
+.area {
+    display:block;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    border: none;
+    margin-top: 10px;
+    color:#000000;
+    text-align:left;
+    width:50%;
+    float:left;
+    min-height: 31px;
+}
+
+.area label{
+    font-weight: bold;
+}
+
+.area input{
+    width:95%;
+}
+
+.area select{
+    width:95%;
+    margin-right: 5%;
+}
+
+.areap {
+    display:block;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    border: none;
+    margin-top: 10px;
+    color:#000000;
+    text-align:left;
+    float:left;
+    width:25%;
+    min-height: 31px;
+    *width:25%;/*usado para funcionar somente no IE7*/
+    _width:25%;/*usado para funcionar somente no IE6*/    
+}
+
+.areap label{    
+    font-weight: bold;
+}
+
+.areap input{
+    width:95%;
+}
+
+.areap select{
+    width:90%;
+    margin-right: 10%;
+}

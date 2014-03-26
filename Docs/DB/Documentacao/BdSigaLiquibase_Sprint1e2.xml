@@ -1,0 +1,222 @@
+<changeSet author="Matheus Rossi" id="1">
+<createTable tableName="pessoa">
+  <column name="id" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="cpf" type="VARCHAR(11)"/>
+  <column name="nome" type="VARCHAR(100)"/>
+  <column name="e_mail" type="VARCHAR(60)"/>
+  <column name="matricula" type="CHAR(50)"/>
+  <column name="tipo_pessoa_aluno" type="BOOLEAN"/>
+  <column name="tipo_pessoa_professor" type="BOOLEAN"/>
+  <column name="tipo_pessoa_coordenador" type="BOOLEAN"/>
+</createTable>
+</changeSet>
+<changeSet author="Matheus Rossi" id="2">
+<addPrimaryKey tableName="pessoa" constraintName="pessoa_pk" columnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="3">
+<createIndex tableName="pessoa" indexName="pessoa_cpf_key" unique="true">
+  <column name="cpf"/>
+</createIndex>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="4">
+<createTable tableName="disciplina">
+  <column name="id" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="descricao" type="CHAR(200)"/>
+</createTable>
+</changeSet>
+<changeSet author="Matheus Rossi" id="5">
+<addPrimaryKey tableName="disciplina" constraintName="disciplina_pk" columnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="6">
+<createIndex tableName="disciplina" indexName="disciplina_descricao_key" unique="true">
+  <column name="descricao"/>
+</createIndex>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="7">
+<createTable tableName="curso">
+  <column name="id" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="descricao" type="CHAR(200)"/>
+  <column name="id_pessoa" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="carga_horaria_total" type="INTEGER"/>
+  <column name="data_inicial" type="TIMESTAMP">
+    <constraints nullable="false"/>
+  </column>
+  <column name="data_final" type="TIMESTAMP">
+    <constraints nullable="false"/>
+  </column>
+  <column name="carga_horaria_distancia" type="INTEGER"/>
+</createTable>
+</changeSet>
+<changeSet author="Matheus Rossi" id="8">
+<addPrimaryKey tableName="curso" constraintName="curso_pk" columnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="9">
+<createIndex tableName="curso" indexName="curso_descricao_key" unique="true">
+  <column name="descricao"/>
+</createIndex>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="10">
+<createTable tableName="curso_disciplina">
+  <column name="id_disciplina" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="id_curso" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="carga_horaria" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="carga_horaria_distancia" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+</createTable>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="11">
+<createTable tableName="curso_disciplina_professor">
+  <column name="id_disciplina" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="id_curso" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="id_pessoa" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+</createTable>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="12">
+<createTable tableName="usuario">
+  <column name="id" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="id_pessoa" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="user_name" type="VARCHAR(30)"/>
+  <column name="password" type="VARCHAR(40)"/>
+</createTable>
+</changeSet>
+<changeSet author="Matheus Rossi" id="13">
+<addPrimaryKey tableName="usuario" constraintName="usuario_pk" columnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="14">
+<createIndex tableName="usuario" indexName="usuario_id_pessoa_key" unique="true">
+  <column name="id_pessoa"/>
+</createIndex>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="15">
+<createTable tableName="permissoes">
+  <column name="id" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="descricao" type="VARCHAR(100)"/>
+</createTable>
+</changeSet>
+<changeSet author="Matheus Rossi" id="16">
+<addPrimaryKey tableName="permissoes" constraintName="permissoes_pk" columnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="17">
+<createTable tableName="perfil">
+  <column name="id" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="descricao" type="VARCHAR(50)"/>
+</createTable>
+</changeSet>
+<changeSet author="Matheus Rossi" id="18">
+<addPrimaryKey tableName="perfil" constraintName="perfil_pk" columnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="19">
+<createTable tableName="usuario_perfil">
+  <column name="id_usuario" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="id_perfil" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+</createTable>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="20">
+<createTable tableName="perfil_permissoes">
+  <column name="id_perfil" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="id_permissao" type="INTEGER">
+    <constraints nullable="false"/>
+  </column>
+  <column name="permite" type="BOOLEAN"/>
+  <column name="inclui" type="BOOLEAN"/>
+  <column name="edita" type="BOOLEAN"/>
+  <column name="exclui" type="BOOLEAN"/>
+</createTable>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="21">
+<addForeignKeyConstraint baseTableName="usuario" constraintName="id_pessoa_fkey" baseColumnNames="id_pessoa" referencedTableName="pessoa" referencedColumnNames="id" onDelete="RESTRICT" onUpdate="RESTRICT"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="22">
+<addForeignKeyConstraint baseTableName="curso" constraintName="curso_coordenador_id_pessoa_fk" baseColumnNames="id_pessoa" referencedTableName="pessoa" referencedColumnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="23">
+<addForeignKeyConstraint baseTableName="curso_disciplina_professor" constraintName="curso_disciplina_professor_id_pessoa_fk" baseColumnNames="id_pessoa" referencedTableName="pessoa" referencedColumnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="24">
+<addForeignKeyConstraint baseTableName="curso_disciplina" constraintName="curso_disciplina_id_disciplina_fk" baseColumnNames="id_disciplina" referencedTableName="disciplina" referencedColumnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="25">
+<addForeignKeyConstraint baseTableName="curso_disciplina" constraintName="curso_disciplina_id_curso_fk" baseColumnNames="id_curso" referencedTableName="curso" referencedColumnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="26">
+<addForeignKeyConstraint baseTableName="curso_disciplina_professor" constraintName="curso_disciplina_professor_id_disciplina_fk" baseColumnNames="id_disciplina, id_curso" referencedTableName="curso_disciplina" referencedColumnNames="id_disciplina, id_curso"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="27">
+<addForeignKeyConstraint baseTableName="usuario_perfil" constraintName="fk_usuario_perfil_id_usuario" baseColumnNames="id_usuario" referencedTableName="usuario" referencedColumnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="28">
+<addForeignKeyConstraint baseTableName="perfil_permissoes" constraintName="id_permissao_fkey" baseColumnNames="id_permissao" referencedTableName="permissoes" referencedColumnNames="id" onDelete="RESTRICT" onUpdate="RESTRICT"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="29">
+<addForeignKeyConstraint baseTableName="perfil_permissoes" constraintName="fk_perfil_permissoes_id_permissao" baseColumnNames="id_permissao" referencedTableName="permissoes" referencedColumnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="30">
+<addForeignKeyConstraint baseTableName="perfil_permissoes" constraintName="id_perfil_fkey" baseColumnNames="id_perfil" referencedTableName="perfil" referencedColumnNames="id" onDelete="RESTRICT" onUpdate="RESTRICT"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="31">
+<addForeignKeyConstraint baseTableName="perfil_permissoes" constraintName="fk_perfil_permissoes_id_perfil" baseColumnNames="id_perfil" referencedTableName="perfil" referencedColumnNames="id"/>
+</changeSet>
+
+<changeSet author="Matheus Rossi" id="32">
+<addForeignKeyConstraint baseTableName="usuario_perfil" constraintName="fk_usuario_perfil_id_perfil" baseColumnNames="id_perfil" referencedTableName="perfil" referencedColumnNames="id"/>
+</changeSet>
+

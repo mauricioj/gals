@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="./../template.xhtml">
+        <ui:define name="title">Listar Calendários</ui:define>
+        <ui:define name="content">
+            <h:inputHidden value="#{calendarioManagedBean.listarCalendarios()}"/>                            
+            <h:form>
+                <p:panel header="Listar Calendários" styleClass="fieldset">
+                    <p:dataTable value="#{calendarioManagedBean.cursos}" var="curso" paginator="true" rows="10" paginatorPosition="bottom" 
+                                 rowKey="#{curso.id}" selection="#{calendarioManagedBean.curso}" selectionMode="single"
+                                 emptyMessage="Nenhum calendário encontrado!">
+                        <!--<p:column headerText="Visualizar Calendário ">
+                            <p:commandLink oncomplete="PF('calendarioLetivoDialog').show()">
+                                <p:graphicImage value="/resources/imagens/find.png" alt="Visualizar Calendário do Curso" title="Visualizar Calendário do Curso"/>
+                            </p:commandLink>  
+                        </p:column>-->
+                        <p:column headerText="Cursos" sortBy="#{curso.descricao}" filterBy="#{curso.descricao}">
+                            <p:commandLink action="#{calendarioManagedBean.exibirCalendarioPorCurso}" update="@form" value="#{curso.descricao}" 
+                                           oncomplete="PF('calendarioLetivoDialog').show()">
+                                <f:setPropertyActionListener value="#{curso}" target="#{calendarioManagedBean.curso}" />                                      
+                            </p:commandLink>
+                        </p:column>
+                        <p:column headerText="Editar">
+                            <p:commandLink action="#{calendarioManagedBean.montarPaginaParaAlteracao(curso)}" title="Alterar Calendário">
+                                <p:graphicImage value="/resources/imagens/edit.png" alt="Alterar Calendário" title="Alterar Calendário"/>
+                            </p:commandLink>  
+                        </p:column> 
+                        <p:column headerText="Visualizar">
+                            <p:commandLink action="#{calendarioManagedBean.exibirCalendarioPorCurso}" update="@form" oncomplete="PF('calendarioLetivoDialog').show()">
+                                <p:graphicImage value="/resources/imagens/find.png" alt="Visualizar Calendário do Curso" title="Visualizar Calendário do Curso"/>                                    
+                                <f:setPropertyActionListener value="#{curso}" target="#{calendarioManagedBean.curso}" />                                      
+                            </p:commandLink>
+                            <!--<h:outputText value="&nbsp;"/>
+                            <h:commandLink action="# {cursoManagedBean.montarPaginaParaExclusao}" value="Excluir">
+                                <f:setPropertyActionListener value="# {curso}" target="# {cursoManagedBean.curso}" />  
+                            </h:commandLink>-->
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog id="dialog" header="Calendário do Curso" widgetVar="calendarioLetivoDialog" resizable="false" showEffect="clip" hideEffect="fold">  
+                        <p:dataTable id="calendarioLetivoTable" value="#{calendarioManagedBean.curso.calendarioCursoDisciplinaProfessorList}" var="calendarioLetivo" emptyMessage="Nenhuma aula adicionada ao Calendário deste Curso!">  
+                            <p:column sortBy="#{calendarioLetivo.dataAula}">
+                                <f:facet name="header">  
+                                    <h:outputText value="Data Aula" />  
+                                </f:facet>  
+                                <h:outputText value="#{calendarioLetivo.dataAula}">
+                                    <f:convertDateTime locale="pt,BR" dateStyle="long" pattern="dd/MM/yyyy" />  
+                                </h:outputText>
+                            </p:column>  
+                            <p:column sortBy="#{calendarioLetivo.disciplina.descricao}">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Disciplina" />  
+                                </f:facet>  
+                                <h:outputText value="#{calendarioLetivo.disciplina.descricao}" />  
+                            </p:column>  
+                            <p:column sortBy="#{calendarioLetivo.pessoa.nome}">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Professor" />  
+                                </f:facet>  
+                                <h:outputText value="#{calendarioLetivo.pessoa.nome}" />  
+                            </p:column>  
+                            <p:column sortBy="#{calendarioLetivo.aulaDistancia}">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Aula distância" />  
+                                </f:facet>  
+                                <h:outputText value="#{calendarioLetivo.aulaDistanciaDescricao}" />  
+                            </p:column> 
+                            <p:column sortBy="#{calendarioLetivo.informacoesAula}">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Informações" />  
+                                </f:facet>  
+                                <h:outputText value="#{calendarioLetivo.informacoesAula}" />  
+                            </p:column>
+                        </p:dataTable>
+                    </p:dialog>  
+                </p:panel>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>
+

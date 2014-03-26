@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="title">Alterar Curso</ui:define>
+            <ui:define name="content">
+                <h:inputHidden value="#{cursoManagedBean.carregarListas()}"/>
+                <h:form>
+                    <p:messages id="mensagensCurso" autoUpdate="true" closable="true" globalOnly="true"/>
+
+                    <p:wizard widgetVar="wiz" showNavBar="false" flowListener="#{cursoManagedBean.onFlowProcess}" nextLabel="Proximo" backLabel="Voltar">                        
+                        <p:tab id="curso" title="Informações do Curso"> 
+                            <p:panel header="Curso" styleClass="fieldset">
+                                <p:outputPanel styleClass="area">
+                                    <h:outputLabel value="Nome"><br/></h:outputLabel>
+                                    <p:inputText id="descricao" value="#{cursoManagedBean.curso.descricao}" required="true" requiredMessage="Campo de preenchimento obrigatório!" validatorMessage="Campo pode conter no máximo 200 caracteres!"/>
+                                    <p:message for="descricao"/>
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="area">
+                                    <h:outputLabel value="Coordenador"><br/></h:outputLabel>
+                                    <p:selectOneMenu value="#{cursoManagedBean.curso.pessoa}" id="coordenador" required="true" requiredMessage="Campo de preenchimento obrigatório!" style="width: 100%;">  
+                                        <f:selectItems value="#{cursoManagedBean.coordenadores}" var="c" itemValue="#{c}" itemLabel="#{c.nome}"/>  
+                                        <f:converter converterId="pessoaConverter" />
+                                    </p:selectOneMenu>  
+                                    <p:message for="coordenador"/>
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="areap">
+                                    <h:outputLabel value="Carga horaria total"><br/></h:outputLabel>
+                                    <p:inputText id="cargaHorariaTotal" value="#{cursoManagedBean.curso.cargaHorariaTotal}" required="true" requiredMessage="Campo de preenchimento obrigatório!" validatorMessage="O valor fornecido deve estar entre 1 e 100000!" converterMessage="O valor fornecido deve ser um número inteiro!">
+                                        <f:validateLongRange minimum="1" maximum="100000"/>
+                                    </p:inputText>    
+                                    <p:message for="cargaHorariaTotal"/>
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="areap">
+                                    <h:outputLabel value="Carga horaria distancia"><br/></h:outputLabel>
+                                    <p:inputText id="cargaHorariaDistancia" value="#{cursoManagedBean.curso.cargaHorariaDistancia}" required="true" requiredMessage="Campo de preenchimento obrigatório!" validatorMessage="O valor fornecido deve estar entre 1 e 100000!" converterMessage="O valor fornecido deve ser um número inteiro!">
+                                        <f:validateLongRange minimum="0" maximum="100000"/>   
+                                    </p:inputText>    
+                                    <p:message for="cargaHorariaDistancia"/>
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="area">
+                                    <h:outputLabel value="&nbsp;"><br/></h:outputLabel>
+                                    <h:inputText style="visibility: hidden;" />
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="areap">
+                                    <h:outputLabel value="Data do Início"><br/></h:outputLabel>
+                                    <p:calendar id="dataInicial" value="#{cursoManagedBean.curso.dataInicial}" required="true" requiredMessage="Campo de preenchimento obrigatório!" converterMessage="O valor fornecido deve ser uma data válida!"/>
+                                    <p:message for="dataInicial"/>
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="areap">
+                                    <h:outputLabel value="Data do Fim"><br/></h:outputLabel>
+                                    <p:calendar id="dataFinal" value="#{cursoManagedBean.curso.dataFinal}" required="true" requiredMessage="Campo de preenchimento obrigatório!" converterMessage="O valor fornecido deve ser uma data válida!">
+                                        <p:ajax event="dateSelect" listener="#{cursoManagedBean.validarDataDeInicioEFim()}" process="dataInicial, @this" update="proximo" />
+                                    </p:calendar>
+                                    <p:message for="dataFinal"/>
+                                </p:outputPanel>
+
+                                <span class="areag"></span>
+                                <span style="clear: left; float: right;">
+                                    <p:commandButton id="proximo" immediate="true" value="Próximo" onclick="wiz.next();" disabled="#{cursoManagedBean.desabilitaBotao}"/>
+                                </span>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="disciplinas" title="Disciplinas e Professores">                        
+                            <p:panel header="Adicionar disciplinas e professores" styleClass="fieldset">                              
+                                <p:outputPanel styleClass="area">
+                                    <h:outputLabel value="Disciplina"><br/></h:outputLabel>
+                                    <h:selectOneMenu id="disciplina" value="#{cursoManagedBean.cursoDisciplina.disciplina}" converter="disciplinaConverter" required="true" requiredMessage="Campo de preenchimento obrigatório!">  
+                                        <f:selectItems value="#{cursoManagedBean.disciplinas}" var="d" itemValue="#{d}" itemLabel="#{d.descricao}"/>  
+                                        <p:ajax update="professores" event="click" listener="#{cursoManagedBean.obterProfessores()}"/>
+                                    </h:selectOneMenu>  
+                                    <p:message for="disciplina"/>
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="areap">
+                                    <h:outputLabel value="Carga horaria total"><br/></h:outputLabel>
+                                    <p:inputText id="disciplinaCargaHoraria" value="#{cursoManagedBean.cursoDisciplina.cargaHoraria}" required="true" requiredMessage="Campo de preenchimento obrigatório!" validatorMessage="O valor fornecido deve estar entre 1 e 100000!" converterMessage="O valor fornecido deve ser um número inteiro!">
+                                        <f:validateLongRange minimum="1" maximum="100000"/>
+                                    </p:inputText>
+                                    <p:message for="disciplinaCargaHoraria"/>
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="areap">
+                                    <h:outputLabel value="Carga horaria distancia"><br/></h:outputLabel>
+                                    <p:inputText id="disciplicaCargaHorariaDistancia" value="#{cursoManagedBean.cursoDisciplina.cargaHorariaDistancia}" required="true" requiredMessage="Campo de preenchimento obrigatório!" validatorMessage="O valor fornecido deve estar entre 1 e 100000!" converterMessage="O valor fornecido deve ser um número inteiro!"> 
+                                        <f:validateLongRange minimum="0" maximum="100000"/>                                                                            
+                                    </p:inputText>
+                                    <p:message for="disciplicaCargaHorariaDistancia"/>  
+                                </p:outputPanel>
+
+                                <p:outputPanel styleClass="area">
+                                    <h:outputLabel value="Selecione um ou mais professores"><br/></h:outputLabel>
+                                    <h:panelGrid id="professores" columns="2">
+                                        <p:pickList id="listaProfessores" value="#{cursoManagedBean.professoresList}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}" converter="pessoaConverter" required="true"  requiredMessage="Selecione um ou mais professores!"/>
+                                        <p:message for="listaProfessores"/>                                                                                
+                                    </h:panelGrid> 
+                                </p:outputPanel>
+
+                                <span class="areaBotao">
+                                    <p:commandButton id="btn_add" value="Adicionar Disciplina" update="cursoDisciplinas @parent" action="#{cursoManagedBean.reinitCursoDisciplina}"/>                                
+                                </span>
+
+                                <p:dataTable id="cursoDisciplinasTable" value="#{cursoManagedBean.cursoDisciplinas}" var="cursoDisciplina" emptyMessage="Nenhuma disciplina adicionada!">  
+                                    <p:column>  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Disciplina" />  
+                                        </f:facet>  
+                                        <h:outputText value="#{cursoDisciplina.disciplina.descricao}" />  
+                                    </p:column>  
+
+                                    <p:column>  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Carga Horaria" />  
+                                        </f:facet>  
+                                        <h:outputText value="#{cursoDisciplina.cargaHoraria}" />  
+                                        <f:facet name="footer">  
+                                            <h:outputText value="Total: #{cursoManagedBean.curso.totalCargaHoraria}" />
+                                            <br/>
+                                            <h:outputText value="Carga Horária do Curso: #{cursoManagedBean.curso.cargaHorariaTotal}" />  
+                                        </f:facet> 
+                                    </p:column>  
+
+                                    <p:column>  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Carga Horaria distancia" />  
+                                        </f:facet>  
+                                        <h:outputText value="#{cursoDisciplina.cargaHorariaDistancia}" />  
+                                        <f:facet name="footer">  
+                                            <h:outputText value="Total: #{cursoManagedBean.curso.totalCargaHorariaDistancia}" />  
+                                            <br/>
+                                            <h:outputText value="Carga Horária a Distancia do Curso: #{cursoManagedBean.curso.cargaHorariaDistancia}" />  
+                                        </f:facet> 
+                                    </p:column>  
+
+                                    <p:column>  
+                                        <p:dataTable id="cursoDisciplinasProfessorTable" value="#{cursoManagedBean.getCursoDisciplinaProfessores(cursoDisciplina)}" var="cdp" emptyMessage="Nenhum professor">  
+                                            <p:column>  
+                                                <f:facet name="header">  
+                                                    <h:outputText value="Professor(es)" />  
+                                                </f:facet>  
+                                                <h:outputText value="#{cdp.nome}" />  
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:column>  
+
+                                    <p:column>  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Operações" />  
+                                        </f:facet> 
+                                        <p:commandLink immediate="true" action="#{cursoManagedBean.removeCursoDisciplina()}" title="Excluir Disciplina" update="cursoDisciplinasTable">
+                                            <p:graphicImage value="/resources/imagens/delete.png" alt="Excluir Disciplina" title="Excluir Disciplina"/>
+                                            <f:setPropertyActionListener value="#{cursoDisciplina}" target="#{cursoManagedBean.cursoDisciplina}" />  
+                                        </p:commandLink>
+                                    </p:column>                                     
+                                </p:dataTable>
+                                <br/><br/>
+
+                                <span style="float: left;">
+                                    <p:commandButton immediate="true" value="Voltar" onclick="wiz.loadStep(wiz.cfg.steps [0], true)"/>
+                                </span>
+                                <span style="float: right;">
+                                    <p:commandButton immediate="true" value="Próximo" onclick="wiz.loadStep(wiz.cfg.steps [2], true)"/>
+                                </span>
+                            </p:panel>  
+                        </p:tab>
+
+                        <p:tab id="disciplinasProfessores" title="Informações do Curso">                        
+                            <p:panel id="cursoDisciplinas" header="Confirmação" styleClass="fieldset">
+                                <p:outputPanel style="text-align: left;">
+                                    <br/>
+                                    <h:outputLabel value="Curso: " style="font-weight: bold;" />
+                                    <h:outputText value="#{cursoManagedBean.curso.descricao}" />  
+                                    <br/><br/>
+                                    <h:outputLabel value="Coordenador: " style="font-weight: bold;" />
+                                    <h:outputText value="#{cursoManagedBean.curso.pessoa.nome}" />  
+                                    <br/><br/>
+                                    <h:outputLabel value="Carga Horária do Curso: " style="font-weight: bold;" />
+                                    <h:outputText value="#{cursoManagedBean.curso.cargaHorariaTotal}" />  
+                                    <br/><br/>
+                                    <h:outputLabel value="Carga Horária a Distancia do Curso: " style="font-weight: bold;" />
+                                    <h:outputText value="#{cursoManagedBean.curso.cargaHorariaDistancia}" />  
+                                    <br/><br/>
+                                    <h:outputLabel value="Data do Início: " style="font-weight: bold;" />
+                                    <h:outputText value="#{cursoManagedBean.curso.dataInicial}">  
+                                        <f:convertDateTime locale="pt,BR" dateStyle="long" pattern="dd/MM/yyyy" />  
+                                    </h:outputText>
+                                    <br/><br/>
+                                    <h:outputLabel value="Data do Fim: " style="font-weight: bold;" />
+                                    <h:outputText value="#{cursoManagedBean.curso.dataFinal}">  
+                                        <f:convertDateTime locale="pt,BR" dateStyle="long" pattern="dd/MM/yyyy" />  
+                                    </h:outputText>
+                                    <br/><br/>
+                                </p:outputPanel>
+
+                                <p:dataTable id="cursoDisciplinasFinalTable" value="#{cursoManagedBean.cursoDisciplinas}" var="cursoDisciplina" emptyMessage="Nenhuma disciplina adicionada">  
+                                    <p:column>  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Disciplina" />  
+                                        </f:facet>  
+                                        <h:outputText value="#{cursoDisciplina.disciplina.descricao}" />  
+                                    </p:column>  
+
+                                    <p:column>  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Carga Horaria" />  
+                                        </f:facet>  
+                                        <h:outputText value="#{cursoDisciplina.cargaHoraria}" />  
+                                        <f:facet name="footer">  
+                                            <h:outputText value="Total: #{cursoManagedBean.curso.totalCargaHoraria}" />
+                                        </f:facet> 
+                                    </p:column>  
+
+                                    <p:column>  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Carga Horaria distancia" />  
+                                        </f:facet>  
+                                        <h:outputText value="#{cursoDisciplina.cargaHorariaDistancia}" />  
+                                        <f:facet name="footer">  
+                                            <h:outputText value="Total: #{cursoManagedBean.curso.totalCargaHorariaDistancia}" />                                              
+                                        </f:facet> 
+                                    </p:column>  
+
+                                    <p:column>  
+                                        <p:dataTable id="cursoDisciplinasProfessorFinalTable" value="#{cursoManagedBean.getCursoDisciplinaProfessores(cursoDisciplina)}" var="cdp" emptyMessage="Nenhum professor">  
+                                            <p:column>  
+                                                <f:facet name="header">  
+                                                    <h:outputText value="Professor(es)" />  
+                                                </f:facet>  
+                                                <h:outputText value="#{cdp.nome}" />  
+                                            </p:column> 
+                                        </p:dataTable>
+                                    </p:column>  
+                                </p:dataTable>
+                                <br/><br/>
+
+                                <span class="areaBotao">
+                                    <p:commandButton id="inserir" action="#{cursoManagedBean.inserir()}" value="Inserir" update="@form" disabled="#{cursoManagedBean.curso.id != null}" />
+                                    <p:commandButton id="alterar" action="#{cursoManagedBean.alterar()}" value="Alterar" update="@form" disabled="#{cursoManagedBean.curso.id == null}" />
+                                </span>
+
+                                <span style="float: left;">
+                                    <p:commandButton immediate="true" value="Voltar" onclick="wiz.loadStep(wiz.cfg.steps [1], true)"/>
+                                </span>
+                            </p:panel> 
+                        </p:tab>
+                        <br/><br/>
+
+                    </p:wizard>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

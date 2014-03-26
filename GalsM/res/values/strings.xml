@@ -1,0 +1,32 @@
+<resources>
+
+    <string name="app_name">SIGAM</string>
+    <string name="menu_settings">Configurações</string>
+    <string name="menu_logout">Logout</string>
+    <string name="title_activity_main">SIGAM</string>
+    <string name="logo_description">Departamento de Computação</string>
+    <string name="view_calendars">Visualizar calendários</string>
+    <string name="view_history">Visualizar Histórico</string>
+    <string name="dialog_login">Login</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="invalid_login">Usuario ou senha inválido</string>
+    <string name="login_title">Por favor, efetue o login no SIGA</string>
+    <string name="login_message">Digite seu usuário e senha</string>
+    <string name="login_confirm">Login</string>
+    <string name="login_cancel">Cancelar</string>
+    <string name="nothing_course">Nenhum curso encontrado</string>
+    <string name="nothing_calendar">Nenhum calendário encontrado</string>
+    <string name="nothing_history">Nenhum histórico encontrado</string>
+    <string name="course_select">Selecione um curso</string>
+    <string name="course_cancel">Cancelar</string>
+    <string name="list_calendar_title">Calendario</string>
+    <string name="list_history_title">Histórico</string>
+    <string name="find_history">Buscando Histórico&#8230;</string>
+    <string name="find_calendar">Buscando Histórico&#8230;</string>
+    <string name="cabDisciplina">Disciplina</string>
+    <string name="cabFrequencia">Frequencia</string>
+    <string name="cabNota">Nota</string>
+    <string name="cabDistancia">Distancia</string>
+    <string name="cabProfessor">Professor</string>
+    <string name="cabData">Data</string>
+</resources>

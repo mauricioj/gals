@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="title">Listar Perfis</ui:define>
+            <ui:define name="content">
+                <h:inputHidden value="#{perfilManagedBean.listarPerfis()}"/>
+                <h:form>
+                    <p:panel header="Listar Perfis" styleClass="fieldset">
+                        <p:dataTable value="#{perfilManagedBean.perfis}" var="perfil" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="N&atilde;o existem perfis cadastrados!" style="width: 100%;" rendered="#{not empty perfilManagedBean.perfis}">
+                            <p:column sortBy="#{perfil.descricao}" filterBy="#{perfil.descricao}">
+                                <f:facet name="header">
+                                    <h:outputText value="Descricao" />
+                                </f:facet>
+                                <h:outputText value="#{perfil.descricao}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="&nbsp;"/>
+                                </f:facet>
+                                <h:commandLink action="#{perfilManagedBean.montarPaginaParaAlteracao(perfil)}" title="Alterar Perfil">
+                                    <p:graphicImage value="/resources/imagens/edit.png" alt="Alterar Perfil" title="Alterar Perfil"/>
+                                </h:commandLink>
+                                <!--<h:outputText value="&nbsp;"/>
+                                <h:commandLink action="#//{perfilManagedBean.montarPaginaParaExclusao(perfil)}" title="Excluir Perfil">
+                                    <p:graphicImage value="/resources/imagens/delete.png" alt="Excluir Perfil" title="Excluir Perfil"/>
+                                </h:commandLink>-->
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html> 

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+
+        <ui:composition template="./../template.xhtml">
+
+            <ui:define name="title">Inserir Banco</ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <p:panel header="Inserir Usuario">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Usuario:" />
+                            <h:inputText id="nome" value="#{usuarioManagedBean.usuario.userName}" />
+                            <h:outputLabel value="Senha:" />
+                            <h:inputText id="cnpj" value="#{usuarioManagedBean.usuario.password}" />
+                            <h:outputLabel value="Pessoa:" />
+                            <h:selectOneMenu id="idPessoa" value="#{usuarioManagedBean.usuario.idPessoa}">
+                                <f:selectItem value="#{null}" itemLabel="Nenhum" />
+                                <f:selectItems  value="#{pessoaManagedBean.pessoas}"  var="pessoa" itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
+                                <f:converter converterId="pessoaConverter" />
+                            </h:selectOneMenu>
+                            <h:outputText value="Perfil :"></h:outputText>                        
+                            <p:selectManyMenu id="perfilCollection" value="#{usuarioManagedBean.usuario.perfilCollection}" converter="perfilConverter" var="p" showCheckbox="true">  
+                                <f:selectItems value="#{perfilManagedBean.perfis}" var="perfil" itemLabel="#{perfil.descricao}" itemValue="#{perfil}" />  
+                                <p:column>#{p.descricao}</p:column>
+                            </p:selectManyMenu> 
+                            <h:commandButton id="inserir" action="#{usuarioManagedBean.inserir}" value="Inserir" />
+                            <h:commandButton id="cancelar" action="/index" value="Cancelar" />
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+
+        <ui:composition template="./../template.xhtml">
+
+            <ui:define name="title">Excluir Perfil</ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <p:panel header="Excluir Perfil">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Descricao:" />
+                            <h:outputText value="#{perfilManagedBean.perfil.descricao}" />
+                            <h:commandButton id="excluir" action="#{perfilManagedBean.excluir}" value="Excluir" />
+                            <h:commandButton id="cancelar" action="/index" value="Cancelar" />
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

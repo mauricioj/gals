@@ -1,0 +1,3 @@
+﻿--AUTHOR Mauricio - 18/06/2013
+
+CREATE USER siga WITH PASSWORD 's1g@';

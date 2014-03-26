@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+
+        <ui:composition template="./../template.xhtml">
+
+            <ui:define name="title">Listar Pessoas</ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <p:panel header="Listar Usuarios">
+                        <h:panelGrid>
+                            <h:outputText value="N&atilde;o existem usuarios cadastradas" rendered="#{empty usuarioManagedBean.usuarios}" />
+
+                            <p:dataTable value="#{usuarioManagedBean.usuarios}" var="usuario" paginator="true" rows="10" rendered="#{not empty usuarioManagedBean.usuarios}">
+                                <p:column sortBy="#{usuario.userName}" filterBy="#{usuario.userName}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Usuario" />
+                                    </f:facet>
+                                    <h:outputText value="#{usuario.userName}" />
+                                </p:column>
+                                <p:column sortBy="#{usuario.password}" filterBy="#{usuario.password}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Senha" />
+                                    </f:facet>
+                                    <h:outputText value="#{usuario.password}" />
+                                </p:column>
+                                <p:column sortBy="#{usuario.idPessoa.nome}" filterBy="#{usuario.idPessoa.nome}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Pessoa" />
+                                    </f:facet>
+                                    <h:outputText value="#{usuario.idPessoa.nome}" />
+                                </p:column>
+                            </p:dataTable>
+
+                            <h:commandButton id="cancelar" action="/index" value="Cancelar" />
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html> 

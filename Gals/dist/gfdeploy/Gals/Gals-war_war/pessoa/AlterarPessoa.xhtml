@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="title">Alterar Pessoa</ui:define>
+
+            <ui:define name="content">
+                <h:inputHidden value="#{pessoaManagedBean.obterPerfis()}"/>
+                <h:form>
+                    <p:panel header="Cadastro de Pessoa" styleClass="fieldset">
+                        <p:messages id="mensagensPessoa" autoUpdate="true" closable="true" globalOnly="true"/>
+
+                        <p:outputPanel styleClass="area">
+                            <h:outputLabel value="Nome"><br/></h:outputLabel>
+                            <p:inputText id="nome" value="#{pessoaManagedBean.pessoa.nome}" required="true" requiredMessage="Campo de preenchimento obrigatório!" validatorMessage="Campo pode conter no máximo 100 caracteres!"/>
+                            <p:message for="nome"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="areap">
+                            <h:outputLabel value="CPF"><br/></h:outputLabel>
+                            <p:inputMask id="cpf" value="#{pessoaManagedBean.pessoa.cpf}" mask="999.999.999-99" required="true" requiredMessage="Campo de preenchimento obrigatório!" disabled="#{pessoaManagedBean.pessoa.id != null}">  
+                                <p:ajax event="blur" update="userNameOutput, passwordOutput" />  
+                                <f:converter converterId="campoConverter" />
+                                <f:validator validatorId="validateCpf"/>
+                            </p:inputMask>
+                            <p:message for="cpf"/>
+                        </p:outputPanel>                            
+
+                        <p:outputPanel styleClass="area">
+                            <h:outputLabel value="E-mail"><br/></h:outputLabel>
+                            <p:inputText id="email" value="#{pessoaManagedBean.pessoa.EMail}" required="true" requiredMessage="Campo de preenchimento obrigatório!">
+                                <f:validator validatorId="validateEmail"/>                                   
+                            </p:inputText>
+                            <p:message for="email"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="areap">    
+                            <h:outputLabel value="Usuário"><br/></h:outputLabel>
+                            <h:outputText id="userNameOutput" value="#{pessoaManagedBean.pessoa.cpf}" style="font-weight: bold; color: red;" />
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="areap" rendered="#{pessoaManagedBean.pessoa.id == null}">
+                            <h:outputLabel value="Senha"><br/></h:outputLabel>
+                            <h:outputText id="passwordOutput" value="#{pessoaManagedBean.pessoa.cpf}" style="font-weight: bold; color: red;" />
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="areap" rendered="#{pessoaManagedBean.pessoa.id != null}">
+                            <h:outputLabel value="Senha"><br/></h:outputLabel>
+                            <h:inputSecret id="password" value="#{pessoaManagedBean.pessoa.password}" required="true" requiredMessage="Campo de preenchimento obrigatório!"/>
+                            <p:message for="password"/>                              
+                        </p:outputPanel>
+                        <span class="areag"></span>
+
+                        <p:outputPanel styleClass="area">
+                            <h:outputLabel value="Tipo de pessoa"><br/></h:outputLabel>
+                            <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="10">  
+                                <p:selectBooleanCheckbox itemLabel="Aluno " value="#{pessoaManagedBean.pessoa.tipoPessoaAluno}"/>  
+                                <p:selectBooleanCheckbox itemLabel="Professor " value="#{pessoaManagedBean.pessoa.tipoPessoaProfessor}"/>  
+                                <p:selectBooleanCheckbox itemLabel="Coordenador " value="#{pessoaManagedBean.pessoa.tipoPessoaCoordenador}"/>  
+                            </h:panelGrid>
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="area">
+                            <h:outputLabel value="Selecione o Perfil"><br/></h:outputLabel>
+                            <p:pickList id="listaPerfis" value="#{pessoaManagedBean.perfis}" var="perfil" itemLabel="#{perfil.descricao}" itemValue="#{perfil}" converter="perfilConverter" required="true"  requiredMessage="Selecione um ou mais perfis!"/>
+                            <p:message for="listaPerfis"/>                                                                                
+                        </p:outputPanel>
+
+                        <span class="areaBotao">
+                            <p:commandButton id="inserir" action="#{pessoaManagedBean.inserir()}" value="Inserir" update="@form" disabled="#{pessoaManagedBean.pessoa.id != null}" />
+                            <p:commandButton id="alterar" action="#{pessoaManagedBean.alterar()}" value="Alterar" update="@form" disabled="#{pessoaManagedBean.pessoa.id == null}" />
+                            <!--<p:commandButton id="cancelar" action="# {pessoaManagedBean.limpar()}"  value="Limpar" update="@form" process="@this" />-->
+                        </span>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

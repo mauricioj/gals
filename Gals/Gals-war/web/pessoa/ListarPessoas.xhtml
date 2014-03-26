@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="title">Listar Pessoas</ui:define>
+            <ui:define name="content">
+                <h:inputHidden value="#{pessoaManagedBean.listarPessoas()}"/>
+                <h:form>
+                    <p:panel header="Listar Pessoas" styleClass="fieldset">
+                        <p:messages id="mensagensPessoa" autoUpdate="true" closable="true" globalOnly="true"/>
+
+                        <p:dataTable id="tabelaPessoas" value="#{pessoaManagedBean.pessoas}" var="pessoa" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,15,20" paginatorPosition="bottom" emptyMessage="N&atilde;o existem pessoas cadastradas!" style="width: 100%;" rendered="#{not empty pessoaManagedBean.pessoas}">
+                            <p:column sortBy="#{pessoa.nome}" filterBy="#{pessoa.nome}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nome" />
+                                </f:facet>
+                                <h:outputText value="#{pessoa.nome}" />
+                            </p:column>
+                            <p:column sortBy="#{pessoa.cpf}" filterBy="#{pessoa.cpf}">
+                                <f:facet name="header">
+                                    <h:outputText value="CPF" />
+                                </f:facet>
+                                <h:outputText value="#{pessoa.cpf}" />
+                            </p:column>
+                            <p:column sortBy="#{pessoa.EMail}" filterBy="#{pessoa.EMail}">
+                                <f:facet name="header">
+                                    <h:outputText value="Email"/>
+                                </f:facet>
+                                <h:outputText value="#{pessoa.EMail}" />
+                            </p:column>
+                            <p:column sortBy="#{pessoa.userName}" filterBy="#{pessoa.userName}">
+                                <f:facet name="header">
+                                    <h:outputText value="Usuário"/>
+                                </f:facet>
+                                <h:outputText value="#{pessoa.userName}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Alterar"/>
+                                </f:facet>
+                                <h:commandLink action="#{pessoaManagedBean.montarPaginaParaAlteracao(pessoa)}" title="Alterar">
+                                    <p:graphicImage value="/resources/imagens/edit.png" />
+                                </h:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html> 

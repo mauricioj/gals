@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="title">Listar Cursos</ui:define>
+            <ui:define name="content">
+                <h:inputHidden value="#{cursoManagedBean.listarCursos()}"/>
+                <h:form>
+                    <p:panel header="Listar Cursos" styleClass="fieldset">
+                        <p:dataTable value="#{cursoManagedBean.cursos}" var="curso" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,15,20" paginatorPosition="bottom" emptyMessage="N&atilde;o existem cursos cadastrados!">
+                            <p:column headerText="Visualizar Lista de Disciplinas">
+                                <p:commandLink action="#{cursoManagedBean.carregarListaDisciplinas(curso)}" update="@form" oncomplete="PF('disciplinasDialog').show()">
+                                    <p:graphicImage value="/resources/imagens/find.png" alt="Visualizar Lista de Disciplinas" title="Visualizar Lista de Disciplinas"/>
+                                    <f:setPropertyActionListener value="#{curso}" target="#{cursoManagedBean.curso}" />  
+                                </p:commandLink>  
+                            </p:column>
+                            <p:column sortBy="#{curso.descricao}" filterBy="#{curso.descricao}">
+                                <f:facet name="header">
+                                    <h:outputText value="Descricao" />
+                                </f:facet>
+                                <h:outputText value="#{curso.descricao}" />
+                            </p:column>
+                            <p:column sortBy="#{curso.pessoa.nome}" filterBy="#{curso.pessoa.nome}">
+                                <f:facet name="header">
+                                    <h:outputText value="Coordenador" />
+                                </f:facet>
+                                <h:outputText value="#{curso.pessoa.nome}" />
+                            </p:column>
+                            <p:column sortBy="#{curso.dataInicial}" filterBy="#{curso.dataInicial}">
+                                <f:facet name="header">
+                                    <h:outputText value="Data do início" />
+                                </f:facet>
+                                <h:outputText value="#{curso.dataInicial}">
+                                    <f:convertDateTime locale="pt,BR" dateStyle="long" pattern="dd/MM/yyyy" />  
+                                </h:outputText>                                    
+                            </p:column>
+                            <p:column sortBy="#{curso.dataInicial}" filterBy="#{curso.dataInicial}">
+                                <f:facet name="header">
+                                    <h:outputText value="Data do fim" />
+                                </f:facet>
+                                <h:outputText value="#{curso.dataFinal}">
+                                    <f:convertDateTime locale="pt,BR" dateStyle="long" pattern="dd/MM/yyyy" />  
+                                </h:outputText>                                    
+                            </p:column>
+                            <p:column sortBy="#{curso.cargaHorariaTotal}" filterBy="#{curso.cargaHorariaTotal}">
+                                <f:facet name="header">
+                                    <h:outputText value="Carga Horária Total" />
+                                </f:facet>
+                                <h:outputText value="#{curso.cargaHorariaTotal}" />
+                            </p:column>
+                            <p:column sortBy="#{curso.cargaHorariaDistancia}" filterBy="#{curso.cargaHorariaDistancia}">
+                                <f:facet name="header">
+                                    <h:outputText value="Carga Horária a Distância" />
+                                </f:facet>
+                                <h:outputText value="#{curso.cargaHorariaDistancia}" />                                  
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="&nbsp;"/>
+                                </f:facet>
+                                <h:commandLink action="#{cursoManagedBean.montarPaginaParaAlteracao(curso)}" title="Alterar Curso">
+                                    <p:graphicImage value="/resources/imagens/edit.png" alt="Alterar Curso" title="Alterar Curso"/>
+                                </h:commandLink>
+                                <!--<h:outputText value="&nbsp;"/>
+                                <h:commandLink action="# {cursoManagedBean.montarPaginaParaExclusao}" value="Excluir">
+                                    <f:setPropertyActionListener value="# {curso}" target="# {cursoManagedBean.curso}" />  
+                                </h:commandLink>-->
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog id="dialog" header="Lista de Disciplinas" widgetVar="disciplinasDialog" resizable="false" showEffect="clip" hideEffect="explode">  
+                            <p:dataTable id="cursoDisciplinas" value="#{cursoManagedBean.cursoDisciplinas}" var="cursoDisciplina" emptyMessage="Nenhuma disciplina adicionada!">  
+                                <p:column>  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Disciplina" />  
+                                    </f:facet>  
+                                    <h:outputText value="#{cursoDisciplina.disciplina.descricao}" />  
+                                </p:column>  
+
+                                <p:column>  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Carga Horaria" />  
+                                    </f:facet>  
+                                    <h:outputText value="#{cursoDisciplina.cargaHoraria}" />  
+                                    <f:facet name="footer">  
+                                        <h:outputText value="Total: #{cursoManagedBean.curso.totalCargaHoraria}" />
+                                    </f:facet> 
+                                </p:column>  
+
+                                <p:column>  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Carga Horaria distancia" />  
+                                    </f:facet>  
+                                    <h:outputText value="#{cursoDisciplina.cargaHorariaDistancia}" />  
+                                    <f:facet name="footer">  
+                                        <h:outputText value="Total: #{cursoManagedBean.curso.totalCargaHorariaDistancia}" />                                              
+                                    </f:facet> 
+                                </p:column>  
+                            </p:dataTable>
+                        </p:dialog>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html> 

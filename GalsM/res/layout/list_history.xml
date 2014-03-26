@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical" >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/list_history_title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center" />
+        
+		<RelativeLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content" >
+		    <TextView
+		        android:id="@+id/edHistoryCabDisciplina"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentTop="true"
+		        android:background="#AAAAAA"
+		        android:textColor="#FFFFFF"
+		        android:text="@string/cabDisciplina"
+		        android:layout_toLeftOf="@+id/edHistoryCabFrequencia"/>
+		
+		    
+		    <TextView
+		        android:id="@+id/edHistoryCabFrequencia"
+		        android:layout_width="90sp"
+		        android:gravity="right"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:text="@string/cabFrequencia"
+		        android:background="#AAAAAA"
+		        android:textColor="#FFFFFF"
+		        android:layout_toLeftOf="@+id/edHistoryCabNota"/>
+			
+			<TextView
+		        android:id="@+id/edHistoryCabNota"
+		        android:layout_width="50sp"
+		        android:gravity="right"
+		        android:layout_height="wrap_content"
+		        android:text="@string/cabNota"
+		        android:background="#AAAAAA"
+		        android:textColor="#FFFFFF"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"/>
+		</RelativeLayout>
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+</LinearLayout>

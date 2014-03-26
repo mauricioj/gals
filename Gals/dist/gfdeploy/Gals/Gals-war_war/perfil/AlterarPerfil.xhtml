@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" >
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="title">Alterar Perfil</ui:define>
+            <ui:define name="content">
+                <h:inputHidden value="#{perfilManagedBean.obterPerfis()}"/>
+                <h:form>
+                    <p:panel header="Alterar Perfil" styleClass="fieldset">
+                        <p:messages id="mensagens" autoUpdate="true" closable="true" globalOnly="true"/>
+                        
+                        <p:outputPanel styleClass="area">
+                            <h:outputLabel value="Descrição"><br/></h:outputLabel>
+                            <p:inputText id="descricao" value="#{perfilManagedBean.perfil.descricao}" required="true" requiredMessage="Campo de preenchimento obrigatório!" validatorMessage="Campo pode conter no máximo 50 caracteres!"/>
+                            <p:message for="descricao"/>
+                        </p:outputPanel>
+                        <span class="areag"></span>
+
+                        <p:dataTable var="p" value="#{perfilManagedBean.perfil.perfilPermissoesCollection}" styleClass="area">  
+                            <p:column headerText="Descricao">  
+                                <h:outputText value="#{p.permissoes.descricao}" />  
+                            </p:column>  
+                            <p:column headerText="Permite">  
+                                <p:selectBooleanCheckbox value="#{p.permite}" />  
+                            </p:column>  
+                            <p:column headerText="Inclui">  
+                                <p:selectBooleanCheckbox value="#{p.inclui}" />  
+                            </p:column>  
+                            <p:column headerText="Edita">  
+                                <p:selectBooleanCheckbox value="#{p.edita}" />  
+                            </p:column>  
+                            <p:column headerText="Exclui">  
+                                <p:selectBooleanCheckbox value="#{p.exclui}" />  
+                            </p:column>
+                        </p:dataTable>
+
+                        <span class="areaBotao">
+                            <h:commandButton id="alterar" action="#{perfilManagedBean.alterar}" value="Alterar" />
+                        </span>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

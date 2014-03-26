@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="#{facesContext.externalContext.requestContextPath}/resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="#{facesContext.externalContext.requestContextPath}/resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title><h:outputText value=" ::. S.I.G.A. .:: "/><ui:insert name="title" /></title>
+        <ui:insert name="script"></ui:insert>
+    </h:head>
+
+    <h:body>
+        <div>
+            <div id="left"><p:graphicImage value="/resources/imagens/TopImage.png"/></div>
+            <div id="texto_topo"><h1>Sistema Integrado de Gestão Acadêmica do Lato Sensu</h1></div>
+            <div>
+                <h:form>
+                    <p:outputPanel rendered="#{sessionManagedBean.logado}">
+                        <h:outputText id="nomeOrUsername" value="Olá: #{sessionManagedBean.nomeOrUsername}" style="float: right; " />
+                        <br/>
+                        <h:outputText id="perfil" value="Acesso: #{sessionManagedBean.perfilUsuario.descricao}" style="float: right; "/>
+                        <br/><br/>
+                        <p:commandButton value="Sair" action="#{sessionManagedBean.fazerLogout()}" icon="ui-icon-circle-close" style="float: right" />
+                    </p:outputPanel>
+                </h:form>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div id="tudo">
+            <div id="top">
+                <h:form id="formTemplate">
+                    <p:menubar id="barraDeMenu" rendered="#{sessionManagedBean.logado and (sessionManagedBean.perfilUsuario != null and sessionManagedBean.perfilUsuario.id != null)}">
+
+                        <p:submenu id="subMenuPessoa" label="Pessoa">
+                            <p:menuitem>
+                                <h:commandLink action="#{pessoaManagedBean.montarPaginaParaInsercao}" value="Inserir Pessoa"/>
+                            </p:menuitem>
+                            <p:menuitem>
+                                <h:commandLink action="#{pessoaManagedBean.listar}" value="Listar Pessoas"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:submenu id="subMenuPerfil" label="Perfil">
+                            <p:menuitem>
+                                <h:commandLink action="#{perfilManagedBean.montarPaginaParaInsercao}" value="Inserir Perfil"/>
+                            </p:menuitem>
+                            <p:menuitem>
+                                <h:commandLink action="#{perfilManagedBean.listar}" value="Listar Perfis"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:submenu id="subMenuDisciplina" label="Disciplina">
+                            <p:menuitem>
+                                <h:commandLink action="#{disciplinaManagedBean.montarPaginaParaInsercao}" value="Inserir Disciplina"/>
+                            </p:menuitem>
+                            <p:menuitem>
+                                <h:commandLink action="#{disciplinaManagedBean.listar}" value="Listar Disciplinas"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:submenu id="subMenuCurso" label="Curso">
+                            <p:menuitem>
+                                <h:commandLink action="#{cursoManagedBean.montarPaginaParaInsercao}" value="Inserir Curso"/>
+                            </p:menuitem>
+                            <p:menuitem>
+                                <h:commandLink action="#{cursoManagedBean.listar}" value="Listar Cursos"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:submenu id="subMenuCalendario" label="Calendário">
+                            <p:menuitem>
+                                <h:commandLink action="#{calendarioManagedBean.montarPaginaParaInsercao}" value="Inserir Calendário"/>
+                            </p:menuitem>
+                            <p:menuitem>
+                                <h:commandLink action="#{calendarioManagedBean.listar}" value="Listar Calendários"/>
+                            </p:menuitem>
+                        </p:submenu>
+                    </p:menubar>
+                </h:form>
+            </div>
+
+            <div id="content" class="center_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+
+            <div id="bottom">
+                <div class="logoUfscar"><p:graphicImage value="/resources/imagens/UFSCar.png" ></p:graphicImage></div>
+                <div class="logoDc"><p:graphicImage value="/resources/imagens/dcufscar.png" ></p:graphicImage></div>
+                <div class="textBottom"><h:outputText value="Sistema Integrado de Gest&acirc;o Acad&ecirc;mica do Lato Sensu" /></div>
+            </div>
+        </div>
+
+    </h:body>
+
+</html>
